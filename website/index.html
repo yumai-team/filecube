@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>文件酷 FileCube - 文件管理从未如此优雅</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #0f0f11;
+      color: #e8e8e8;
+      min-height: 100vh;
+    }
+    /* ---- Hero ---- */
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      text-align: center;
+      padding: 80px 24px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 40%, rgba(99,102,241,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-logo {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-radius: 18px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 32px; font-weight: 700; color: #fff;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(99,102,241,0.35);
+    }
+    .hero h1 { font-size: 2.4rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+    .hero .subtitle { color: #a5b4fc; font-size: 1.05rem; margin: 10px 0 6px; font-weight: 500; }
+    .hero .desc { color: #94a3b8; font-size: 0.92rem; max-width: 520px; margin: 0 auto 28px; line-height: 1.6; }
+    .hero .badges { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+    .badge {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+      color: #cbd5e1; font-size: 0.78rem; padding: 4px 12px; border-radius: 20px;
+    }
+    .dl-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #6366f1, #7c3aed);
+      color: #fff; font-size: 1.05rem; font-weight: 600;
+      padding: 14px 36px; border-radius: 12px; text-decoration: none;
+      box-shadow: 0 4px 24px rgba(99,102,241,0.4);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .dl-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(99,102,241,0.55); }
+    .dl-btn .ver { display: block; font-size: 0.72rem; font-weight: 400; opacity: 0.85; }
+
+    /* ---- Sections ---- */
+    section { max-width: 960px; margin: 0 auto; padding: 60px 24px; }
+    .section-title {
+      font-size: 1.5rem; font-weight: 700; color: #f1f5f9;
+      text-align: center; margin-bottom: 36px;
+    }
+
+    /* ---- Features ---- */
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 20px; }
+    .feature-card {
+      background: #1a1a2e; border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px; padding: 28px 22px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-card:hover { border-color: rgba(99,102,241,0.35); transform: translateY(-3px); }
+    .feature-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin-bottom: 14px;
+    }
+    .feature-card h3 { font-size: 1rem; font-weight: 600; color: #e2e8f0; margin-bottom: 8px; }
+    .feature-card p { font-size: 0.85rem; color: #94a3b8; line-height: 1.6; }
+
+    /* ---- Screenshots ---- */
+    .screenshots { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 12px; }
+    .screenshots::-webkit-scrollbar { height: 6px; }
+    .screenshots::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    .screenshot-placeholder {
+      min-width: 280px; height: 180px; background: #1e293b; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: #475569; font-size: 0.82rem; border: 1px dashed #334155;
+      flex-shrink: 0;
+    }
+
+    /* ---- Download ---- */
+    .download-section { background: #1a1a2e; border-radius: 16px; padding: 40px 32px; text-align: center; }
+    .download-section h2 { font-size: 1.4rem; font-weight: 700; color: #f1f5f9; margin-bottom: 8px; }
+    .download-section .note { color: #94a3b8; font-size: 0.85rem; margin-bottom: 24px; }
+    .dl-cards { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .dl-card {
+      background: #0f0f11; border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 22px 28px; min-width: 220px; text-align: left;
+    }
+    .dl-card h4 { font-size: 0.92rem; color: #e2e8f0; margin-bottom: 4px; }
+    .dl-card .meta { font-size: 0.78rem; color: #64748b; margin-bottom: 14px; }
+    .dl-card a {
+      display: inline-block; background: rgba(99,102,241,0.15); color: #a5b4fc;
+      padding: 6px 16px; border-radius: 8px; text-decoration: none; font-size: 0.82rem;
+      transition: background 0.15s;
+    }
+    .dl-card a:hover { background: rgba(99,102,241,0.3); }
+
+    /* ---- Footer ---- */
+    footer {
+      text-align: center; padding: 32px 24px; color: #475569; font-size: 0.78rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    footer a { color: #6366f1; text-decoration: none; }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.6rem; }
+      .dl-btn { padding: 12px 24px; font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-logo">F</div>
+  <h1>文件酷 FileCube</h1>
+  <p class="subtitle">用多标签代替层级目录，文件管理从未如此优雅</p>
+  <p class="desc">本地文件管理工具 · 多标签归类 · 内容去重 · 存储混淆保护隐私 · 纯本地运行</p>
+  <div class="badges">
+    <span class="badge">Windows 10 / 11</span>
+    <span class="badge">64 位</span>
+    <span class="badge">纯本地 · 无需联网</span>
+    <span class="badge">绿色版 · 免安装</span>
+  </div>
+  <a class="dl-btn" href="https://github.com/vb8bf6jbj-boop/filecube/releases/latest/download/FileCube.zip">
+    ⬇ 免费下载
+    <span class="ver">v0.9 · 绿色版 · 约 80 MB</span>
+  </a>
+</div>
+
+<!-- Features -->
+<section>
+  <h2 class="section-title">核心特性</h2>
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(99,102,241,0.12);color:#818cf8;">🏷</div>
+      <h3>多标签归类</h3>
+      <p>一个文件可以拥有任意多个标签，从多个维度快速定位，告别"文件到底放哪个目录"的纠结。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(16,185,129,0.12);color:#34d399;">🔄</div>
+      <h3>内容去重</h3>
+      <p>基于 SHA-256 哈希自动识别重复文件，相同内容只存一份，从根源杜绝文件重复。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(245,158,11,0.12);color:#fbbf24;">🔒</div>
+      <h3>存储混淆</h3>
+      <p>导入的文件以 UUID 重命名并存放在专用目录，外部无法直接识别或打开，保护文件隐私。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(139,92,246,0.12);color:#a78bfa;">🔍</div>
+      <h3>快速检索</h3>
+      <p>标签交集筛选 + 文件名关键词双维度搜索，10 万级文件量也能秒级响应。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(236,72,153,0.12);color:#f472b6;">🖼</div>
+      <h3>内置预览</h3>
+      <p>图片内置预览器支持缩放、全屏、前后切换；视频/音频调用系统播放器，自动清理临时文件。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(6,182,212,0.12);color:#22d3ee;">🌏</div>
+      <h3>多语言 / 多主题</h3>
+      <p>支持简体中文、英文、日语界面；浅色/深色主题切换，主色调可自定义。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Screenshots (placeholder) -->
+<section>
+  <h2 class="section-title">界面预览</h2>
+  <div class="screenshots">
+    <div class="screenshot-placeholder">主界面 - 标签筛选</div>
+    <div class="screenshot-placeholder">图片预览器</div>
+    <div class="screenshot-placeholder">设置页面</div>
+  </div>
+</section>
+
+<!-- Download -->
+<section>
+  <div class="download-section">
+    <h2>立即下载</h2>
+    <p class="note">绿色版 · 解压即用 · 无需安装 · 完全免费</p>
+    <div class="dl-cards">
+      <div class="dl-card">
+        <h4>📦 绿色版（推荐）</h4>
+        <p class="meta">FileCube.zip · 约 80 MB · Windows x64</p>
+        <a href="https://github.com/vb8bf6jbj-boop/filecube/releases/latest/download/FileCube.zip">⬇ 下载绿色版</a>
+      </div>
+      <div class="dl-card">
+        <h4>🖥 独立 EXE</h4>
+        <p class="meta">FileCube.exe · 约 80 MB · Windows x64</p>
+        <a href="https://github.com/vb8bf6jbj-boop/filecube/releases/latest/download/FileCube.exe">⬇ 下载 EXE</a>
+      </div>
+    </div>
+    <p style="color:#64748b;font-size:0.78rem;margin-top:20px;">
+      需要帮助？查看 <a href="https://github.com/vb8bf6jbj-boop/filecube/wiki" style="color:#818cf8;">使用文档</a>
+      或提交 <a href="https://github.com/vb8bf6jbj-boop/filecube/issues" style="color:#818cf8;">Issue</a>
+    </p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>© 2026 文件酷 FileCube · <a href="https://github.com/vb8bf6jbj-boop/filecube">GitHub</a> · 本软件完全免费</p>
+</footer>
+
+</body>
+</html>
