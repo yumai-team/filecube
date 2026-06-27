@@ -88,15 +88,15 @@
   var target;
 
   if (lang.startsWith('zh')) {
-    target = 'zh.html';
+    target = 'website/zh.html';
     autoLang.textContent = 'Chinese (中文)';
     document.getElementById('card-zh').style.borderColor = 'rgba(99,102,241,0.5)';
   } else if (lang.startsWith('ja')) {
-    target = 'en.html'; // Japanese fallback to English
+    target = 'website/en.html'; // Japanese fallback to English
     autoLang.textContent = 'English';
     document.getElementById('card-en').style.borderColor = 'rgba(99,102,241,0.5)';
   } else {
-    target = 'en.html';
+    target = 'website/en.html';
     autoLang.textContent = 'English';
     document.getElementById('card-en').style.borderColor = 'rgba(99,102,241,0.5)';
   }
