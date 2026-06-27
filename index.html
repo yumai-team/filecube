@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FileCube — Rethink File Management with Multi-Tag System</title>
+  <meta name="description" content="FileCube - A local file management tool that replaces nested folders with multi-tag labeling. Windows 10/11, completely free." />
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #0b0b0f; color: #e2e8f0;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; text-align: center;
+      padding: 24px;
+    }
+    .card {
+      background: #13131a; border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px; padding: 64px 48px; max-width: 480px;
+    }
+    .logo {
+      width: 64px; height: 64px; margin: 0 auto 24px;
+      background: linear-gradient(135deg,#6366f1,#8b5cf6);
+      border-radius: 16px; display: flex; align-items: center; justify-content: center;
+      font-size: 28px; font-weight: 700; color: #fff;
+    }
+    h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 8px; }
+    h2 { font-size: 1.1rem; font-weight: 400; color: #94a3b8; margin-bottom: 40px; }
+    .langs { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .lang-card {
+      flex: 1; min-width: 160px; max-width: 200px;
+      background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.15);
+      border-radius: 14px; padding: 28px 20px;
+      text-decoration: none; color: #e2e8f0;
+      transition: all 0.2s;
+    }
+    .lang-card:hover {
+      border-color: rgba(99,102,241,0.4);
+      background: rgba(99,102,241,0.12);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(99,102,241,0.15);
+    }
+    .lang-flag { font-size: 2.4rem; margin-bottom: 12px; }
+    .lang-name { font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+    .lang-sub { font-size: 0.82rem; color: #64748b; }
+    .auto-hint {
+      margin-top: 32px; font-size: 0.78rem; color: #475569;
+      display: none;
+    }
+    .auto-hint.visible { display: block; }
+    .skip { margin-top: 20px; font-size: 0.8rem; }
+    .skip a { color: #8b5cf6; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">◈</div>
+  <h1>FileCube</h1>
+  <h2 id="tagline">Choose your language / 选择语言</h2>
+
+  <div class="langs">
+    <a href="zh.html" class="lang-card" id="card-zh">
+      <div class="lang-flag">🇨🇳</div>
+      <div class="lang-name">中文</div>
+      <div class="lang-sub">简体中文</div>
+    </a>
+    <a href="en.html" class="lang-card" id="card-en">
+      <div class="lang-flag">🌐</div>
+      <div class="lang-name">English</div>
+      <div class="lang-sub">International</div>
+    </a>
+  </div>
+
+  <p class="auto-hint" id="auto-hint">
+    Redirecting to <span id="auto-lang">Chinese</span> version...
+  </p>
+
+  <div class="skip">
+    <a href="https://github.com/yumai-team/filecube/releases/download/v0.9/FileCube.zip">⬇ Skip &amp; download directly</a>
+  </div>
+</div>
+
+<script>
+(function() {
+  var lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+  var hint = document.getElementById('auto-hint');
+  var autoLang = document.getElementById('auto-lang');
+  var target;
+
+  if (lang.startsWith('zh')) {
+    target = 'zh.html';
+    autoLang.textContent = 'Chinese (中文)';
+    document.getElementById('card-zh').style.borderColor = 'rgba(99,102,241,0.5)';
+  } else if (lang.startsWith('ja')) {
+    target = 'en.html'; // Japanese fallback to English
+    autoLang.textContent = 'English';
+    document.getElementById('card-en').style.borderColor = 'rgba(99,102,241,0.5)';
+  } else {
+    target = 'en.html';
+    autoLang.textContent = 'English';
+    document.getElementById('card-en').style.borderColor = 'rgba(99,102,241,0.5)';
+  }
+
+  hint.classList.add('visible');
+  setTimeout(function() {
+    window.location.href = target;
+  }, 1500);
+})();
+</script>
+
+</body>
+</html>
